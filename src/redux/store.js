@@ -7,4 +7,5 @@ const store = configureStore ({
         users : usersSlice.reducer,
         quizes : quizesSlice.reducer
     }
-})
+});
+export default store;

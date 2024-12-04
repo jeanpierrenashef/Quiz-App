@@ -23,9 +23,3 @@ const usersSlice = createSlice({
 
 });
 export default usersSlice;
-
-const quizSlice = createSlice({
-    name:"quizes",
-    initialState:[],
-    reducers
-})

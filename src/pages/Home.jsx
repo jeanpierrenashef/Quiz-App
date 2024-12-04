@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux';
 const Home = () => {
 
     const quizes = useSelector((global)=>global.quizes);
-    console.log(state);
+    console.log(quizes);
 
   return (
     <div>
