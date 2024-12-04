@@ -24,3 +24,4 @@ const usersSlice = createSlice({
 
 });
 export default usersSlice;
+export const { loadUsers, userScore } = usersSlice.actions;

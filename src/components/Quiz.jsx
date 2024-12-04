@@ -1,12 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector , useDispatch} from "react-redux";
 import "../styles/QuizDetails.css"
+
 
 const Quiz = () => {
     const {id} = useParams();
+    const dispatch = useDispatch();
     const quizzes = useSelector((global) => global.quizes);
+    const points = useSelector((global)=>global.users);
+
     const [userAnswers, setUserAnswers] = useState({});
+    const [currentScore, setCurrentScore] = useState(points);
 
     const quiz = quizzes.list.find((q) => q.id === Number(id));
 
@@ -44,13 +49,19 @@ return (
         </div>
         <button
         onClick={() => {
-            const updatedQuestions = quiz.questions.map((question) => ({
-                ...question,
-                isCorrect: question.answer === userAnswers[question.id],
-            }));
+            let correctAnswers = 0;
 
-            console.log(updatedQuestions);
-            setUserAnswers({}); 
+            quiz.questions.forEach((question) => {
+                if (question.answer === userAnswers[question.id]) {
+                    correctAnswers++;
+            }});
+        
+            const pointsEarned = correctAnswers * 5; 
+            setCurrentScore((prev) => 
+                prev + pointsEarned); 
+            setUserAnswers({});
+            const action = {type:"users/userScore" , payload:pointsEarned};
+            dispatch(action);
             }}
         className="submit-button"
     >
