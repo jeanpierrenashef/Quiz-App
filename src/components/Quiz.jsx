@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
+import "../styles/QuizDetails.css"
 
 const Quiz = () => {
     const {id} = useParams();
@@ -21,30 +22,40 @@ if (!quiz) {
 return (
     <div className="quiz">
         <h1>{quiz.title}</h1>
-        <div className="questions">
-        {quiz.questions.map((q) => ( 
-            <div key={q.id} className="question">
-            <h3>{q.text}</h3>
-            {q.type === "multiple-choice" ? (
-                <ul>
-                    {q.options.map((option, i) => ( 
-                        <li key={i}  onClick={() => handleAnswers(question.id, option)}>{option}</li>
-                    ))}
-                </ul>
-            ) : (
-                <input type="text" placeholder="Your answer" onChange={(e) =>
-                    handleAnswers(question.id, e.target.value)
-                }/>
-            )}
-            </div>
-        ))}
+        <div>
+            {quiz.questions.map((q) => ( 
+                <div key={q.id} className="question">
+                <h3>{q.text}</h3>
+                {q.type === "multiple-choice" ? (
+                    <ul>
+                        {q.options.map((option, i) => ( 
+                            <li key={i} className={`option ${
+                                userAnswers[q.id] === option ? "selected" : ""
+                            }`} onClick={() => handleAnswers(q.id, option)}>{option}</li>
+                        ))}
+                    </ul>
+                ) : (
+                    <input type="text" placeholder="Your answer" onChange={(e) =>
+                        handleAnswers(q.id, e.target.value)
+                    }/>
+                )}
+                </div>
+            ))}
         </div>
         <button
-        onClick={() => console.log("Submit logic here")}
+        onClick={() => {
+            const updatedQuestions = quiz.questions.map((question) => ({
+                ...question,
+                isCorrect: question.answer === userAnswers[question.id],
+            }));
+
+            console.log(updatedQuestions);
+            setUserAnswers({}); 
+            }}
         className="submit-button"
-      >
+    >
         Submit
-      </button>
+    </button>
     </div>
 );
 
