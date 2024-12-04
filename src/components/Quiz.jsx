@@ -35,7 +35,7 @@ return (
                         ))}
                     </ul>
                 ) : (
-                    <input type="text" placeholder="Your answer" onChange={(e) =>
+                    <input type="text" value={userAnswers[q.id] || ""} placeholder="Your answer" onChange={(e) =>
                         handleAnswers(q.id, e.target.value)
                     }/>
                 )}
