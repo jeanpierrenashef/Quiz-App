@@ -27,16 +27,24 @@ return (
             <h3>{q.text}</h3>
             {q.type === "multiple-choice" ? (
                 <ul>
-                {q.options.map((option, i) => ( 
-                    <li key={i}>{option}</li>
-                ))}
+                    {q.options.map((option, i) => ( 
+                        <li key={i}  onClick={() => handleAnswers(question.id, option)}>{option}</li>
+                    ))}
                 </ul>
             ) : (
-                <input type="text" placeholder="Your answer" />
+                <input type="text" placeholder="Your answer" onChange={(e) =>
+                    handleAnswers(question.id, e.target.value)
+                }/>
             )}
             </div>
         ))}
         </div>
+        <button
+        onClick={() => console.log("Submit logic here")}
+        className="submit-button"
+      >
+        Submit
+      </button>
     </div>
 );
 
