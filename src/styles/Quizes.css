@@ -1,0 +1,39 @@
+.quizes {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .quizes > div {
+    gap: 20px;
+    width: 100%;
+  }
+  
+  .quiz-card {
+    width: 80%;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: start;
+    padding: 0 50px;
+
+
+  }
+  
+  
+  .quiz-item {
+    width: 100%;
+    display: flex;
+    flex-direction: row; 
+    justify-content: space-between;
+    align-items: center; 
+    padding: 10px;
+    border: 1px solid grey;
+  }
+
+  .quiz-item > button{
+    padding-left: 50px;
+  }
