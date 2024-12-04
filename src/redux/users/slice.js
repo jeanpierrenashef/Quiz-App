@@ -3,7 +3,8 @@ import {createSlice} from "@reduxjs/toolkit";
 const usersSlice = createSlice({
     name : "users",
     initialState : {
-        list:[]
+        list:[],
+        score:0
     },
     reducers:{
         loadUsers: (state, action) => {
@@ -15,9 +16,9 @@ const usersSlice = createSlice({
             };
         },
         userScore : (state, action) => {
-            const score = action.payload;
+            const points = action.payload;
 
-            return {score};
+            state.score += points;
         }
     }
 
