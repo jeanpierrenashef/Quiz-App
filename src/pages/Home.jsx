@@ -18,7 +18,7 @@ return (
           <h3>{q.title}</h3>
           <button
             onClick={() => {
-              navigate(`/quize/${q.id}`);
+              navigate(`/quiz/${q.id}`);
             }}
           >
             Start
