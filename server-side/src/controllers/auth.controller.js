@@ -9,21 +9,21 @@ export const login = async (req, res) => {
         const user = await User.findOne({
             username
         })
-        if(!user){
-            res.status(404).send({
-                messgae : "invalid"
+        if (!user) {
+            return res.status(404).send({
+                message: "Invalid username",
             });
         }
         const check = await bcrypt.compare(password, user.password);
 
         if(!check){
-            res.status(404).send({
+            return res.status(404).send({
                 message : "wrong credentials"
             });
         }
 
         const token = await jwt.sign({userId:user.id},"secret");
-        res.status(200).send({user, token})
+        return res.status(200).send({user, token})
 
 
     }catch(error){
