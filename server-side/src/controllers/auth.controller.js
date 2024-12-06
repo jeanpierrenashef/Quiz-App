@@ -3,120 +3,96 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
 export const login = async (req, res) => {
-  const { username, password } = req.body;
+    const {username , password} = req.body;
 
-  try {
-    const user = await User.findOne({
-      username,
-    });
+    try{
+        const user = await User.findOne({
+            username
+        })
+        if(!user){
+            res.status(404).send({
+                messgae : "invalid"
+            });
+        }
+        const check = await bcrypt.compare(password, user.password);
 
-    if (!user) {
-      return res.status(404).send({
-        message: "Invalid Credentials",
-      });
+        if(!check){
+            res.status(404).send({
+                message : "wrong credentials"
+            });
+        }
+
+        const token = await jwt.sign({userId:user.id},"secret");
+        res.status(200).send({user, token})
+
+
+    }catch(error){
+        return res.status(500).send({
+            message : "wrong",
+        });
     }
+}
 
-    const check = await bcrypt.compare(password, user.password);
-
-    if (!check) {
-      return res.status(400).send({
-        message: "Invalid Credentials",
-      });
-    }
-
-    const token = await jwt.sign({ userId: user.id }, "secret");
-
-    return res.status(200).send({ user, token });
-  } catch (error) {
-    console.log(error.message);
-
-    return res.status(500).send({
-      message: "Something went wrong",
-    });
-  }
-};
 
 export const register = async (req, res) => {
-  const { username, password, age } = req.body;
+    try{
+        const {username, password, age} = req.body;
 
-  try {
-    if (!username || !password) {
-      return res.status(500).send({
-        message: "All feilds are required",
-      });
+        if(!username || !password){
+            return res.status(500).send({
+                message : "All fields are required"
+            });
+        }
+
+        const hashed = await bcrypt.hash(password,10)
+
+        const user = await User.create({
+            username,
+            password:hashed,
+            age
+
+        })
+        return res.json({
+            user:created,
+        })
+    }catch(error){
+        console.log(error)
     }
-
-    // const salt = await bcrypt.genSalt(10);
-    const hashed = await bcrypt.hash(password, 10);
-
-    const user = await User.create({
-      username,
-      age,
-      password: hashed,
-    });
-
-    return res.json(user);
-  } catch (error) {
-    console.log(error.message);
-
-    return res.status(500).send({
-      message: "Something went wrong",
-    });
-  }
-};
+}
 
 export const updateProfile = async (req, res) => {
-  const id = req.user.id;
+    const id = req.user.id;
 
-  try {
-    if (!id) {
-      return res.status(400).send({
-        message: "Id is required",
-      });
+    try{
+        if (!id){
+        return res.status(500).send({
+            message : "no id"
+        });
     }
 
-    // const user = await User.findById(id);
-
-    const { username, age } = req.body;
-
-    // user.username ??= data.username;
-    // user.age ??= data.age;
-
-    // await user.save();
-
+    const {username , password} = req.body;
     const updated = await User.findByIdAndUpdate(
-      id,
-      {
-        username,
-        age,
-      },
-      {
-        new: true,
-      }
+        id,
+        {
+            username,
+        },{
+            new:true
+        }
     );
 
-    if (!updated) {
-      return res.status(404).send({
-        message: "User Not Found",
-      });
+    if (!updated){
+        return res.status(500).send({
+            message : "not updated"
+        });
     }
+    return res.status(200).send(updated)
 
-    // const updated = await User.updateOne(
-    //   {
-    //     id,
-    //   },
-    //   {
-    //     username,
-    //     age,
-    //   }
-    // );
+    }catch(error){
 
-    return res.status(200).send(updated);
-  } catch (error) {
-    console.log(error.message);
-
-    return res.status(500).send({
-      message: "Something went wrong",
-    });
-  }
-};
+        console.log(error);
+        
+        return res.status(500).send({
+            message : "soething wrong"
+        });
+    }
+}
