@@ -35,8 +35,8 @@ const Login=() => {
                             textDecoration: "underline",
                             cursor: "pointer",
                         }}
-                        onClick={() => Navigate("/register")}
-                    >Register</span>
+                        onClick={() => Navigate("/signup")}
+                    >Signup</span>
                 </p>
                 <button type="button" onClick={()=>{
                     
@@ -61,8 +61,8 @@ const Login=() => {
                             Navigate("/quizes");
                         })
                         .catch((error)=>{
-                        setError("Wrong credentials")
-                        console.log("Wrong credentials")
+                            setError("Wrong credentials")
+                            console.log("Wrong credentials")
                         
                     });
                 }}>Login</button>   

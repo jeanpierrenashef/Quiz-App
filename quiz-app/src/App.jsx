@@ -7,6 +7,7 @@ import Login from './pages/Login.jsx';
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import store from "./redux/store.js";
 import {Provider} from "react-redux";
+import Signup from './pages/Signup.jsx';
 
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
           <Routes>
             <Route />
             <Route path="/" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
             <Route path="/quizes" element={<Home />} />
             <Route path="/quiz/:id" element={<Quiz />} />
           </Routes>

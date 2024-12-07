@@ -52,8 +52,8 @@ export const register = async (req, res) => {
             age
 
         })
-        return res.json({
-            user:created,
+        return res.status(200).send({
+            user,
         })
     }catch(error){
         console.log(error)
