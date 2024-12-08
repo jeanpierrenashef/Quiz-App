@@ -7,7 +7,7 @@ export const getUsers = async (req, res) => {
         const user = await User.findById(id);
 
         if(!user){
-            res.status(404).send({
+            return res.status(404).send({
                 message : "Not found"
             });
         }

@@ -37,4 +37,32 @@ export const createQuiz = async (req, res) => {
     return res.json({
         quiz: created,
     });
-};
+}
+
+export const getQuiz = async (req,res) => {
+    const id = req.params.id;
+
+    if(id){
+        const quiz = await Quiz.findById(id);
+
+        if (!quiz){
+            return res.status(400).send({
+                message : "No quiz exists"
+            });
+        }
+
+        return res.json(quiz);
+    }
+}
+export const getQuizes = async (req,res) => {
+    
+    const quizes = await Quiz.find({})
+
+    if (quizes.length === 0){
+        return res.status(400).send({
+            message : "No quizes"
+        });
+    }
+
+    return res.json (quizes);
+}
