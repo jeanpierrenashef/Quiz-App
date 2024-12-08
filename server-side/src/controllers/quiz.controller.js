@@ -39,11 +39,11 @@ export const createQuiz = async (req, res) => {
     });
 }
 
-export const getQuiz = async (req,res) => {
+export const getQuizes = async (req,res) => {
     const id = req.params.id;
 
     if(id){
-        const quiz = await Quiz.findById(id);
+        const quiz = await Quiz.findOne({ id: parseInt(id) });
 
         if (!quiz){
             return res.status(400).send({
@@ -53,16 +53,7 @@ export const getQuiz = async (req,res) => {
 
         return res.json(quiz);
     }
+    const quizes = await Quiz.find({});
+    return res.json(quizes);
 }
-export const getQuizes = async (req,res) => {
-    
-    const quizes = await Quiz.find({})
 
-    if (quizes.length === 0){
-        return res.status(400).send({
-            message : "No quizes"
-        });
-    }
-
-    return res.json (quizes);
-}
