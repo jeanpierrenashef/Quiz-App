@@ -4,7 +4,7 @@
 
     const router = new Router();
 
-    router.get("/:id?",authMiddleware, getUsers);
+    router.get("/:name?",authMiddleware, getUsers);
     router.post("/", createUsers)
 
     export default router;

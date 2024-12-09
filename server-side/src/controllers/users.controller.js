@@ -1,10 +1,10 @@
 import { User } from "../models/user.model.js";
 
 export const getUsers = async (req, res) => {
-    const id = req.params.id;
+    const name = req.params.name;
 
-    if (id){
-        const user = await User.findById(id);
+    if (name){
+        const user = await User.findOne({ username: name });
 
         if(!user){
             return res.status(404).send({

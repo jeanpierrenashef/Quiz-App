@@ -11,6 +11,7 @@ const Home = () => {
     const quizes = useSelector((global)=>global.quizes);
     const score = useSelector((global) => global.users);
     const dispatch = useDispatch();
+    const username = localStorage.getItem("username")
 
     useEffect(()=>{
       axios.get("http://127.0.0.1:8080/quiz",
@@ -20,11 +21,23 @@ const Home = () => {
       });
     },[])
 
+    useEffect(()=>{
+      axios.get(`http://127.0.0.1:8080/users/${username}`,{
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`, 
+      },
+      }
+      ).then(({data})=>{
+        const action = {type: "users/loadUsers", payload: data}
+        dispatch(action)
+      });
+    },[])
+
     
 return (
   <div className="quizes">
     <h1>Quizzes</h1>
-    <h2>Score: {score.score}</h2>
+    <h2>Score: {score.list.score}</h2>
     <div className="quiz-card">
       {quizes.list.map((q) => (
         <div className="quiz-item">

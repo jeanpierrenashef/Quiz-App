@@ -24,6 +24,9 @@ const Quiz = () => {
         dispatch(action)
     })
     },[])
+    
+
+
 
 if (!quiz) {
     return <h2>Quiz not found</h2>; 
@@ -69,6 +72,7 @@ return (
             const pointsEarned = correctAnswers * 5; 
             setCurrentScore((prev) => 
                 prev + pointsEarned); 
+
             setUserAnswers({});
             const action = {type:"users/userScore" , payload:pointsEarned};
             dispatch(action);
