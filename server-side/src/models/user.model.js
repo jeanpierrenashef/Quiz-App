@@ -11,10 +11,9 @@ const userSchema = new Schema({
         // required:true,
 
     },
-    age:{
-        type:Number,
-        // required:false,
-        // default:null
-    }
+    score: {
+        type: Number,
+        default: 0, 
+    },
 });
 export const User = model("User", userSchema);
