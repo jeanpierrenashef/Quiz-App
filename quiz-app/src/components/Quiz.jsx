@@ -2,18 +2,28 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useSelector , useDispatch} from "react-redux";
 import "../styles/QuizDetails.css"
-
+import axios from "axios";
 
 const Quiz = () => {
     const {id} = useParams();
     const dispatch = useDispatch();
-    const quizzes = useSelector((global) => global.quizes);
+    const quiz = useSelector((global) =>
+        global.quizes.list.find((q) => q.id === Number(id))
+    );
     const points = useSelector((global)=>global.users);
+
 
     const [userAnswers, setUserAnswers] = useState({});
     const [currentScore, setCurrentScore] = useState(points);
 
-    const quiz = quizzes.list.find((q) => q.id === Number(id));
+    //const quiz = quizzes.list.find((q) => q.id === Number(id));
+    useEffect(()=>{
+        axios.get(`http://127.0.0.1:8080/quiz/${encodeURIComponent(id)}`
+    ).then(({data})=>{
+        const action = {type: "quizes/loadQuizes", payload:data}
+        dispatch(action)
+    })
+    },[])
 
 if (!quiz) {
     return <h2>Quiz not found</h2>; 
