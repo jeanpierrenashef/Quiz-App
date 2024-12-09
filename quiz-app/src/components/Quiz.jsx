@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import React, { useState, useEffect, } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import { useSelector , useDispatch} from "react-redux";
 import "../styles/QuizDetails.css"
 import axios from "axios";
@@ -7,6 +7,7 @@ import axios from "axios";
 const Quiz = () => {
     const {id} = useParams();
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const quiz = useSelector((global) =>
         global.quizes.list.find((q) => q.id === Number(id))
     );
@@ -24,7 +25,7 @@ const Quiz = () => {
         dispatch(action)
     })
     },[])
-    
+
 
 
 
@@ -76,6 +77,8 @@ return (
             setUserAnswers({});
             const action = {type:"users/userScore" , payload:pointsEarned};
             dispatch(action);
+            console.log(currentScore)
+            navigate("/quizes")
             }}
         className="submit-button"
     >

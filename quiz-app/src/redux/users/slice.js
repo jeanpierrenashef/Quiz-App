@@ -4,7 +4,6 @@ const usersSlice = createSlice({
     name : "users",
     initialState : {
         list:[],
-        score:0
     },
     reducers:{
         loadUsers: (state, action) => {
@@ -18,7 +17,11 @@ const usersSlice = createSlice({
         userScore : (state, action) => {
             const points = action.payload;
 
-            state.score += points;
+            if (state.list.length > 0) {
+                state.list[0].score += points; 
+            }
+            
+
         }
     }
 

@@ -31,3 +31,12 @@ export const createUsers = async (req, res) => {
     })
 }
 
+export const updateScore = async (req,res)=>{
+    const {score,username} = req.body
+
+    const update = await User.findOneAndUpdate(
+        { username },{score},{new:true}
+    )
+
+    return res.json({user:update})
+}
