@@ -11,13 +11,11 @@ const Quiz = () => {
     const quiz = useSelector((global) =>
         global.quizes.list.find((q) => q.id === Number(id))
     );
-    const points = useSelector((global)=>global.users);
-
-
+    const points = useSelector((global) => global.users);
+    const username = localStorage.getItem("username");
     const [userAnswers, setUserAnswers] = useState({});
-    const [currentScore, setCurrentScore] = useState(points);
+    const [currentScore, setCurrentScore] = useState(points.list.score);
 
-    //const quiz = quizzes.list.find((q) => q.id === Number(id));
     useEffect(()=>{
         axios.get(`http://127.0.0.1:8080/quiz/${encodeURIComponent(id)}`
     ).then(({data})=>{
@@ -25,9 +23,6 @@ const Quiz = () => {
         dispatch(action)
     })
     },[])
-
-
-
 
 if (!quiz) {
     return <h2>Quiz not found</h2>; 
@@ -71,13 +66,23 @@ return (
             }});
         
             const pointsEarned = correctAnswers * 5; 
-            setCurrentScore((prev) => 
-                prev + pointsEarned); 
 
-            setUserAnswers({});
             const action = {type:"users/userScore" , payload:pointsEarned};
             dispatch(action);
-            console.log(currentScore)
+
+            
+            const updatedScore = currentScore + pointsEarned;
+            setCurrentScore(updatedScore)
+
+            axios.post("http://127.0.0.1:8080/users/update_score", {
+                username,
+                score: updatedScore,
+            }).then(() => {
+                console.log("worked")
+            }).catch(() => 
+                console.error("Error updating"));
+        
+            setUserAnswers({});
             navigate("/quizes")
             }}
         className="submit-button"

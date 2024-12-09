@@ -32,7 +32,7 @@ const Home = () => {
         dispatch(action)
       });
     },[])
-    console.log(score)
+
     
 return (
   <div className="quizes">
